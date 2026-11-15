@@ -211,6 +211,36 @@ body.onhome .hdr2 text{animation:rise 1.1s cubic-bezier(.2,.8,.3,1) both}
 body.onhome .hdr2 text+text{animation-delay:.25s}
 body.onhome .go{animation:rise 1s .55s cubic-bezier(.2,.8,.3,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ===== day (meditation) mood for inner screens ===== */
+body.day{--bg:#fff1df;--surface:#ffffff;--surface2:#ffe4c7;--line:#f2d2b0;--ink:#1f1c47;--muted:#625c8a;--dim:#968fb6;--acc:#ff7a2e;--red:#ff7a2e;--sun:#ffb000;background:var(--bg);color:var(--ink)}
+html,body{overflow-x:clip}body.day .app{isolation:isolate}
+body.day .screen{position:relative}
+body.day .screen::before{content:"";position:absolute;z-index:-1;right:-70px;top:-96px;width:200px;height:200px;border-radius:50%;background:var(--fc,transparent);pointer-events:none}
+body.day .screen::after{content:"";position:absolute;z-index:-1;right:-115px;top:-141px;width:290px;height:290px;border-radius:50%;background:var(--fc,transparent);opacity:.2;pointer-events:none}
+body.day .top{position:relative;z-index:1}
+body.day .brand{color:var(--acc)}
+body.day .wc,body.day .tg,body.day .relb,body.day .word,body.day .use,body.day .chip span,body.day .box span{box-shadow:0 1px 0 rgba(31,28,71,.06),0 2px 10px rgba(255,140,60,.08)}
+body.day .wc.on,body.day .tg.on{color:#fff;background:var(--acc)}
+body.day .wc.on.hp::after{background:#fff}
+body.day .relb{background:rgba(255,255,255,.55);border-color:var(--line)}
+body.day .detail{background:var(--surface2)}
+body.day .detail b{color:#e2560f}
+body.day .free,body.day .ta,body.day .range,body.day .panel{box-shadow:0 2px 14px rgba(255,140,60,.08)}
+body.day .free:focus,body.day .ta:focus{border-color:var(--acc)}
+body.day .btn.primary{background:var(--acc);color:#fff}
+body.day .btn{background:var(--surface);box-shadow:0 2px 12px rgba(255,140,60,.1)}
+body.day .poster svg{box-shadow:0 16px 36px rgba(160,80,20,.18)}
+body.day .warn{background:#ffe0cc;color:#8a3d12}
+body.day .edn{background:#ffe0cc;color:#a8480f}
+body.day .nav{background:rgba(255,255,255,.94);border-color:var(--line);box-shadow:0 6px 24px rgba(160,80,20,.12)}
+body.day .nav a.cur{color:var(--acc)}
+body.day .tray{background:rgba(255,255,255,.97);border-color:var(--line);box-shadow:0 8px 28px rgba(160,80,20,.16)}
+body.day .tr-c{background:var(--surface2);color:var(--ink)}
+body.day .tr-s{background:var(--surface2);color:var(--ink)}
+body.day .tr-p{background:var(--acc);color:#fff}
+body.day :focus-visible{outline-color:#6c8cff}
+body.day ::selection{background:rgba(255,122,46,.25)}
 </style></head><body><svg id="defsvg" width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <pattern id="chk" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="#f4edcd"/><rect width="25" height="25" fill="#b9d2ee"/><rect x="25" y="25" width="25" height="25" fill="#b9d2ee"/></pattern>
 <filter id="rough"><feOffset dx="0" dy="0"/></filter>
@@ -247,6 +277,9 @@ function toggle(arr,v){var i=arr.indexOf(v);if(i<0)arr.push(v);else arr.splice(i
 /* ---------- screens ---------- */
 function show(id){var t=document.getElementById(id);if(!t)return;document.querySelectorAll('.screen').forEach(function(a){a.classList.remove('active')});t.classList.add('active');
  document.body.classList.toggle('onhome',id==='home');
+ var day=!/^(home|cards)$/.test(id),DC={explore:'#6fd3b8',archive:'#ffc93c',patterns:'#6c8cff',me:'#ff8a3d'},a0=act()[0];document.body.classList.toggle('day',day);document.documentElement.style.background=day?'#fff1df':'';
+ var fc=id==='fam'&&curK?TH[curK].bg:id==='understand'&&a0?TH[a0.k].bg:DC[id];t.style.setProperty('--fc',fc||'transparent');
+ var mt=document.querySelector('meta[name=theme-color]');if(mt)mt.setAttribute('content',day?'#fff1df':'#1f1c47');
  var cur=/^(explore|archive|patterns|me)$/.test(id)?id:'home';document.querySelectorAll('.nav a').forEach(function(a){a.classList.toggle('cur',a.getAttribute('href')==='#'+cur)});
  renderTray(id);window.scrollTo(0,0)}
 function go(id,arg,o){o=o||{};if(draft.editId&&!/^(cards|fam|understand|result)$/.test(id))endEdit();saveDraft();
